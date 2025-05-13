@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Список книг</title>
+  <style>
+    .App {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #f5f5f5;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+    .title {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 44px;
+        margin-bottom: 20px;
+    }
+    a {
+        text-decoration: none;
+        color: #007bff;
+        font-family: Arial, sans-serif;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    button {
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 10px;
+        min-width: 200px;
+        font-size: 20px;
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+    }
+    button:hover {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.63);
+    }
+    .grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        width: 100%;
+        max-width: 960px;
+        margin-top: 30px;
+    }
+    .grid-item {
+        width: calc(33.333% - 20px);
+    }
+    .card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .card-body {
+        padding: 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .card-title {
+        font-size: 18px;
+        margin: 0 0 10px;
+        font-family: Arial, sans-serif;
+    }
+    .card-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: auto;
+        font-family: Arial, sans-serif;
+    }
+    .card-text {
+        font-size: 12px;
+        color: #999;
+        margin-top: 10px;
+        font-family: Arial, sans-serif;
+    }
+    .pagination {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    .pagination li {
+        margin: 0 5px;
+    }
+    .pagination a,
+    .pagination span {
+        display: block;
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+    }
+    .pagination a {
+        color: #007bff;
+    }
+    .pagination .disabled span {
+        color: #6c757d;
+        background: #e9ecef;
+    }
+  </style>
+</head>
+<body>
+  <div class="App">
+    <h1 class="title">Список книг</h1>
+    <button onclick="location.href='/book/add/'">Добавить книгу</button>
+    <button onclick="location.href='/admin/'">Админ-панель</button>
+
+    <div class="grid">
+      {% for book in books %}
+        <div class="grid-item">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ book.title }}</h5>
+              <h6 class="card-subtitle">{{ book.author }}</h6>
+              <p class="card-text">Опубликовано: {{ book.publication_date }}</p>
+              <a href="{% url 'library:book_detail' book.pk %}" class="button" style="margin-top:auto;">Подробнее</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>Книг не найдено.</p>
+      {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li><a href="?page={{ page_obj.previous_page_number }}">← Назад</a></li>
+        {% endif %}
+        <li class="disabled"><span>Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}
+          <li><a href="?page={{ page_obj.next_page_number }}">Вперёд →</a></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ book.title }}</title>
+  <style>
+    .App {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #f5f5f5;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+    .title {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 44px;
+        margin-bottom: 20px;
+    }
+    .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 500px;
+        box-sizing: border-box;
+    }
+    .card p {
+        font-family: Arial, sans-serif;
+        margin: 10px 0;
+    }
+    .badges {
+        margin: 10px 0;
+    }
+    .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        background: #ddd;
+        border-radius: 4px;
+        margin-right: 5px;
+        font-size: 14px;
+    }
+    a {
+        text-decoration: none;
+    }
+    button {
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 10px;
+        min-width: 140px;
+        font-size: 20px;
+        background-color: #fff;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+    button:hover {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.63);
+    }
+    .actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="App">
+    <h1 class="title">{{ book.title }}</h1>
+    <div class="card">
+      <p><strong>Автор:</strong> {{ book.author }}</p>
+      <p class="badges"><strong>Жанры:</strong>
+        {% for g in book.genres.all %}
+          <span class="badge">{{ g }}</span>
+        {% endfor %}
+      </p>
+      <p><strong>Дата публикации:</strong> {{ book.publication_date }}</p>
+      {% if book.summary %}
+        <p><strong>Аннотация:</strong><br>{{ book.summary|linebreaks }}</p>
+      {% endif %}
+      <div class="actions">
+        <button onclick="location.href='{% url 'library:book_edit' book.pk %}'">
+          ✏️ Редактировать
+        </button>
+        <button onclick="location.href='/'">
+          ← Назад
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

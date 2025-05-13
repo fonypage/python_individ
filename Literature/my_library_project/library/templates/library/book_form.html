@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    {% if form.instance.pk %}Редактирование книги{% else %}Добавление книги{% endif %}
+  </title>
+  <style>
+    .App {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #f5f5f5;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+    .title {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 44px;
+        margin-bottom: 20px;
+    }
+    form {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        width: 100%;
+        max-width: 500px;
+        box-sizing: border-box;
+    }
+    .form-group {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-family: Arial, sans-serif;
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    a {
+        text-decoration: none;
+    }
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    button {
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 10px;
+        min-width: 140px;
+        font-size: 20px;
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.63);
+    }
+  </style>
+</head>
+<body>
+  <div class="App">
+    <h1 class="title">
+      {% if form.instance.pk %}Редактирование книги{% else %}Добавление книги{% endif %}
+    </h1>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-group">
+        {{ form.title.label_tag }}
+        {{ form.title }}
+        {{ form.title.errors }}
+      </div>
+      <div class="form-group">
+        {{ form.author.label_tag }}
+        {{ form.author }}
+        {{ form.author.errors }}
+      </div>
+      <div class="form-group">
+        {{ form.genres.label_tag }}
+        {{ form.genres }}
+        {{ form.genres.errors }}
+      </div>
+      <div class="form-group">
+        {{ form.publication_date.label_tag }}
+        {{ form.publication_date }}
+        {{ form.publication_date.errors }}
+      </div>
+      <div class="form-group">
+        {{ form.summary.label_tag }}
+        {{ form.summary }}
+        {{ form.summary.errors }}
+      </div>
+      <div class="buttons">
+        <button type="submit">Сохранить</button>
+        <button type="button" onclick="location.href='/'">Отмена</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
